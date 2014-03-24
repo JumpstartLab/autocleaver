@@ -1,7 +1,7 @@
 module Autocleaver
   class Frontmatter
     attr_reader :input_text
-    attr_accessor :title
+    attr_accessor :title, :style, :output
 
     def initialize(text)
       @input_text = text
@@ -40,6 +40,28 @@ module Autocleaver
         end
       end
       return result
+    end
+
+    def style
+      @style || default_style
+    end
+
+    def default_style
+      "basic-style.css"
+    end
+
+    def output
+      @output || default_output
+    end
+
+    def default_output
+      "basic.html"
+    end
+
+    def generate
+      [:title, :style, :output].map do |key|
+        "#{key}: #{send(key)}"
+      end.join("\n")
     end
 
   end
