@@ -32,7 +32,13 @@ class RendererTest < Minitest::Test
     assert_equal expected_output, @renderer.generate_headers(input_string)
   end
 
-  def test_removes_paragraphs
+  def test_removes_paragraphs_from_simple_text
+    input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2"
+    expected_output = "##Apples\n\n\n* list item 1\n* list item 2"
+    assert_equal expected_output, @renderer.transpile(input_string)
+  end
+
+  def test_keeps_code_blocks
     input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```"
     expected_output = "##Apples\n\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```"
     assert_equal expected_output, @renderer.transpile(input_string)
