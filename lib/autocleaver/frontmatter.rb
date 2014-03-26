@@ -1,7 +1,7 @@
 module Autocleaver
   class Frontmatter
     attr_reader :input_text
-    attr_accessor :title, :style, :output
+    attr_accessor :title, :style, :output, :section
 
     def initialize(text)
       @input_text = text
@@ -56,6 +56,10 @@ module Autocleaver
 
     def controls
       @controls || default_controls
+    end
+
+    def section
+      @section
     end
 
     def default_output

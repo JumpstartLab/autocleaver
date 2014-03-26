@@ -30,6 +30,11 @@ class FrontmatterTest < Minitest::Test
     assert_equal expected, @frontmatter.title
   end
 
+  def test_it_extracts_the_section
+    expected = "Controllers"
+    assert_equal expected, @frontmatter.section
+  end
+
   def test_it_generates_frontmatter
     expected = "title: Filters\noutput: basic.html\ncontrols: true"
     assert_equal expected, @frontmatter.generate
