@@ -22,6 +22,14 @@ module Autocleaver
 
     def transpile(text)
       text = remove_paragraphs(text)
+      result = text.split("\n").map do |line|
+        if line.strip.start_with?("#")
+          "--\n\n#{line}"
+        else
+          line
+        end
+      end.join("\n")
+      result << "\n"
     end
 
     def generate_headers(text)

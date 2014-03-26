@@ -1,3 +1,4 @@
+require 'pry'
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -33,17 +34,24 @@ class RendererTest < Minitest::Test
 
   def test_removes_paragraphs_from_simple_text
     input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2"
-    expected_output = "##Apples\n\n\n* list item 1\n* list item 2"
+    expected_output = "--\n\n##Apples\n\n\n* list item 1\n* list item 2\n"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 
   def test_keeps_code_blocks
     input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n\nconcluding paragraph"
-    expected_output = "##Apples\n\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n"
+    expected_output = "--\n\n##Apples\n\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n"
+    assert_equal expected_output, @renderer.transpile(input_string)
+  end
+
+  def test_inserts_new_slide_before_each_header
+    input_string = "##Header1\n* list 1\n\n###Header2\n"
+    expected_output = "--\n\n##Header1\n* list 1\n\n--\n\n###Header2\n"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 
   def test_creates_properly_formatted_file
+    skip
     expected_file = File.read('./test/support/sample_output.markdown')
     @renderer.render
     output_file = File.read(@output_filename)
