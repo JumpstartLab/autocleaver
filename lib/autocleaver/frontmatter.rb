@@ -54,12 +54,20 @@ module Autocleaver
       @output || default_output
     end
 
+    def controls
+      @controls || default_controls
+    end
+
     def default_output
       "basic.html"
     end
 
+    def default_controls
+      "true"
+    end
+
     def generate
-      [:title, :style, :output].map do |key|
+      [:title, :output, :controls].map do |key|
         "#{key}: #{send(key)}"
       end.join("\n")
     end

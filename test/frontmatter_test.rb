@@ -31,7 +31,7 @@ class FrontmatterTest < Minitest::Test
   end
 
   def test_it_generates_frontmatter
-    expected = "title: Filters\nstyle: basic-style.css\noutput: basic.html"
+    expected = "title: Filters\noutput: basic.html\ncontrols: true"
     assert_equal expected, @frontmatter.generate
   end
   # def test_it_generates_the_needed_fields
