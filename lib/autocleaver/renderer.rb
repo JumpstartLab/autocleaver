@@ -23,7 +23,7 @@ module Autocleaver
       header << frontmatter.generate
       header << "\n\n--\n\n"
       header << "# #{frontmatter.title}\n"
-      header << "## Controllers\n\n"
+      header << "## #{frontmatter.section}\n\n"
     end
 
   end

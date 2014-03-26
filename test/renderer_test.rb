@@ -12,6 +12,11 @@ class RendererTest < Minitest::Test
     @renderer = Autocleaver::Renderer.load(data_file)
   end
 
+  def teardown
+    file_name = 'output_file.html'
+    FileUtils.rm(file_name) if File.exists?(file_name)
+  end
+
   def test_load_pulls_input_data_from_a_file
     assert @renderer.input_text
   end
