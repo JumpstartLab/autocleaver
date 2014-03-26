@@ -39,8 +39,8 @@ class RendererTest < Minitest::Test
   end
 
   def test_keeps_code_blocks
-    input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```"
-    expected_output = "##Apples\n\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```"
+    input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n\nconcluding paragraph"
+    expected_output = "##Apples\n\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 

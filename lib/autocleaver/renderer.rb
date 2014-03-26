@@ -21,8 +21,32 @@ module Autocleaver
     end
 
     def transpile(text)
+      code_block = false
+      lag_code_block = false
+      code_block_count = 0
+
       text.split("\n").map do |line|
-        line unless is_paragraph?(line)
+        if !lag_code_block && code_block_edge?(line)
+          code_block = false
+        end
+
+        if code_block_edge?(line)
+          code_block = true
+          code_block_count += 1
+        end
+
+        lag_code_block = code_block_edge?(line)
+
+        current_code_block = code_block
+
+        if code_block_count == 2
+          code_block = false
+        end
+
+        if current_code_block || !is_paragraph?(line)
+          line
+        end
+
       end.compact.join("\n")
     end
 
@@ -39,6 +63,10 @@ module Autocleaver
 
     def is_paragraph?(line)
       line.match(/^\w/)
+    end
+
+    def code_block_edge?(line)
+      line.strip.start_with?("```")
     end
 
   end
