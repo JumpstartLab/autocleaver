@@ -12,8 +12,18 @@ class RendererTest < Minitest::Test
     @renderer = Autocleaver::Renderer.load(data_file)
   end
 
-  def test_it_renders_a_file
-    
-    assert_equal expected, @renderer.render
+  def test_load_pulls_input_data_from_a_file
+    assert @renderer.input_text
   end
+
+  def test_renders_a_file
+    assert_equal File, @renderer.render.class
+  end
+
+  def test_outputs_frontmatter
+    input_string = "---\nlayout: page\ntitle: Filters\nsection: Controllers\n---\n"
+    expected_output = "title: Filters\noutput: basic.html\ncontrols: true\n\n--\n\n# Filters\n## Controllers\n\n"
+    assert_equal expected_output, @renderer.transpile(input_string)
+  end
+
 end
