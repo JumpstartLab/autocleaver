@@ -1,4 +1,3 @@
-require 'pry'
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -10,12 +9,12 @@ class RendererTest < Minitest::Test
 
   def setup
     data_file = './test/support/sample_input.markdown'
+    @output_filename = 'output_file.html'
     @renderer = Autocleaver::Renderer.load(data_file)
   end
 
   def teardown
-    file_name = 'output_file.html'
-    FileUtils.rm(file_name) if File.exists?(file_name)
+    FileUtils.rm(@output_filename) if File.exists?(@output_filename)
   end
 
   def test_load_pulls_input_data_from_a_file
@@ -42,6 +41,13 @@ class RendererTest < Minitest::Test
     input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n\nconcluding paragraph"
     expected_output = "##Apples\n\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n"
     assert_equal expected_output, @renderer.transpile(input_string)
+  end
+
+  def test_creates_properly_formatted_file
+    expected_file = File.read('./test/support/sample_output.markdown')
+    @renderer.render
+    output_file = File.read(@output_filename)
+    assert_equal expected_file, output_file
   end
 
 end

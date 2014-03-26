@@ -1,4 +1,3 @@
-require 'pry'
 module Autocleaver
   class Renderer
 
@@ -14,9 +13,9 @@ module Autocleaver
 
     def render
       output_file = File.new("output_file.html", 'w+')
-
-      # << generate_headers
-      # << transpile
+      output_file.write(generate_headers(input_text))
+      output_file.write(transpile(input_text))
+      output_file.close
 
       output_file
     end
@@ -51,7 +50,10 @@ module Autocleaver
 
         lag_code_block = code_block_edge?(line)
         current_code_block = code_block
-        code_block = false if code_block_count == 2
+        if code_block_count == 2
+          code_block = false
+          code_block_count = 0
+        end
         line if current_code_block || !is_paragraph?(line)
       end.compact.join("\n")
     end
