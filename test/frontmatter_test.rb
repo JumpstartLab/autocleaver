@@ -22,7 +22,7 @@ class FrontmatterTest < Minitest::Test
 
   def test_it_extracts_the_raw_frontmatter_from_the_input
     expected = ["layout: page", "title: Filters", "section: Controllers"]
-    assert_equal expected, @frontmatter.extract_frontmatter    
+    assert_equal expected, @frontmatter.extract_frontmatter
   end
 
   def test_it_extracts_the_title
