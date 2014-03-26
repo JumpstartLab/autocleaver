@@ -1,4 +1,3 @@
-require 'pry'
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -51,7 +50,6 @@ class RendererTest < Minitest::Test
   end
 
   def test_creates_properly_formatted_file
-    skip
     expected_file = File.read('./test/support/sample_output.markdown')
     @renderer.render
     output_file = File.read(@output_filename)
