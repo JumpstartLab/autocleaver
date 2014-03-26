@@ -1,3 +1,4 @@
+require 'pry'
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -28,6 +29,12 @@ class RendererTest < Minitest::Test
   def test_outputs_frontmatter
     input_string = "---\nlayout: page\ntitle: Filters\nsection: Controllers\n---\n"
     expected_output = "title: Filters\noutput: basic.html\ncontrols: true\n\n--\n\n# Filters\n## Controllers\n\n"
+    assert_equal expected_output, @renderer.generate_headers(input_string)
+  end
+
+  def test_removes_paragraphs
+    input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```"
+    expected_output = "##Apples\n\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 

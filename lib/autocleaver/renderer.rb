@@ -1,3 +1,4 @@
+require 'pry'
 module Autocleaver
   class Renderer
 
@@ -14,22 +15,30 @@ module Autocleaver
     def render
       output_file = File.new("output_file.html", 'w+')
 
+      # generate_headers
+
       output_file
     end
 
     def transpile(text)
-      frontmatter = Autocleaver::Frontmatter.new(text)
-      headers = generate_headers(frontmatter)
+      text.split("\n").map do |line|
+        line unless is_paragraph?(line)
+      end.compact.join("\n")
     end
 
-    private
-
-    def generate_headers(frontmatter)
+    def generate_headers(text)
+      frontmatter = Autocleaver::Frontmatter.new(text)
       header = ""
       header << frontmatter.generate
       header << "\n\n--\n\n"
       header << "# #{frontmatter.title}\n"
       header << "## #{frontmatter.section}\n\n"
+    end
+
+    private
+
+    def is_paragraph?(line)
+      line.match(/^\w/)
     end
 
   end
