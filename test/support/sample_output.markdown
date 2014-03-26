@@ -1,22 +1,25 @@
----
-layout: page
 title: Filters
-section: Controllers
----
+output: basic.html
+controls: true
 
-The Rails REST implementation dictates the default seven actions for your controllers, but frequently we want to share functionality across multiple actions or even across controllers. 
+--
 
-## Before, After, and Around
+# Filters
+## Controllers
 
-There are three types of filters implemented in Rails:
+--
+
+### Before, After, and Around
 
 * `before_filter` runs before the controller action
 * `after_filter` runs after the controller action
 * `around_filter` yields to the controller action wherever it chooses
 
-### Basic Usage
+--
 
-`before_filter` is, by far, the most common. There are two ways to invoke a before filter. First, as an anonymous block:
+### Before, After, and Around
+#### Basic Usage
+
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -26,7 +29,10 @@ class ArticlesController < ApplicationController
   #...
 ```
 
-While the anonymous block style works, it's usually cleaner to implement a named method:
+--
+
+### Before, After, and Around
+#### Basic Usage
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -41,15 +47,17 @@ private
 end
 ```
 
-Since the filter is only going to be used within the controller, and won't be accessed directly by the router.
+--
 
+### Before, After, and Around
 #### `after_filter`
 
 An `after_filter` works exactly the same, just executing _after_ the controller action.
 
-#### `around_filter`
+--
 
-The most rare is the `around_filter`. Here is the common example of its usage:
+### Before, After, and Around
+#### `around_filter`
 
 ```ruby
 around_filter :wrap_actions
@@ -63,16 +71,18 @@ def wrap_actions
 end
 ```
 
-Wherever `yield` is called, the action will be executed. So the functionality here could recover from any exception that occurs in the yielded action.
+--
 
-### `only` and `except`
-
-All three filters accept the options `:only` and `:except`:
+### Before, After, and Around
+#### `only` and `except`
 
 * `:only`: a whitelist of actions for which the filter should run
 * `:except`: a blacklist of actions for which the filter should *not* run.
 
-For example, we could remove the condition from the `before_filter` sample above if we scope to only those actions which will have a `params[:id]`:
+--
+
+### Before, After, and Around
+#### `only` and `except`
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -87,7 +97,10 @@ private
 end
 ```
 
-Or get the same effect using `:except`:
+--
+
+### Before, After, and Around
+#### `only` and `except`
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -95,13 +108,15 @@ class ArticlesController < ApplicationController
   #...
 ```
 
-## Sharing Filters
+--
 
-Filters are most often about sharing code across actions in a single controller, but we can also share them across controllers.
+### Sharing Filters
 
-### Sharing through `ApplicationController`
 
-The most common way to reuse filters across controllers is to move them to `ApplicationController`. Since all controllers inherit from `ApplicationController`, they'll have access to those methods. For example:
+--
+
+### Sharing Filters
+#### Sharing through `ApplicationController`
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -120,11 +135,12 @@ class ArticlesController < ApplicationController
 end
 ```
 
-But how useful will it be to look up an `Article` in other controllers?
+--
 
-#### Generalizing to `find_resource`
+### Sharing Filters
+#### Sharing through `ApplicationController`
+##### Generalizing to `find_resource`
 
-With a bit of object introspection and mixing in some metaprogramming, we can write a generalized `find_resource` method that will infer the model name from the current controller:
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -145,15 +161,17 @@ class ArticlesController < ApplicationController
 end
 ```
 
-## Exercises
+--
 
-{% include custom/sample_project_advanced.html %}
+### Exercises
 
 1. Implement a `before_filter` in `ArticlesController` to remove all calls to `find` in the actions.
 2. Implement an `after_filter` that turns the article titles to all uppercase, but does not change the data in the database.
 3. Implement a `before_filter` for just the `create` action on `CommentsController` that replaces the word `"sad"` with `"happy"` in the incoming comment body.
 4. Implement an `around_filter` that catches an exception, writes an apology into the `flash[:notice]`, and redirects to the articles `index`. If the exception was raised in `articles#index`, render the message as plain text (`render text: "xyz"`). Cause an exception and make sure it works.
 
-## References
+--
+
+### References
 
 * Rails Guide on Controller Filters: http://guides.rubyonrails.org/action_controller_overview.html#filters
