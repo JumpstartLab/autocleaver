@@ -18,8 +18,14 @@ module Autocleaver
     end
 
     def transpile(text)
-      header = ""
       frontmatter = Autocleaver::Frontmatter.new(text)
+      headers = generate_headers(frontmatter)
+    end
+
+    private
+
+    def generate_headers(frontmatter)
+      header = ""
       header << frontmatter.generate
       header << "\n\n--\n\n"
       header << "# #{frontmatter.title}\n"
