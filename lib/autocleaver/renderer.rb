@@ -1,5 +1,6 @@
 module Autocleaver
   class Renderer
+    SENTENCE = /^\w|`/
 
     attr_reader :input_text
 
@@ -67,7 +68,7 @@ module Autocleaver
     end
 
     def is_paragraph?(line)
-      line.match(/^\w/)
+      line.match(SENTENCE)
     end
 
     def code_block_edge?(line)
