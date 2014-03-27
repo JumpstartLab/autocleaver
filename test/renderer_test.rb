@@ -1,3 +1,4 @@
+require 'pry'
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -38,21 +39,22 @@ class RendererTest < Minitest::Test
   end
 
   def test_keeps_code_blocks
-    input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n\nconcluding paragraph"
-    expected_output = "--\n\n##Apples\n\n\n* list item 1\n* list item 2\n\n```\na = 1\nb = a\n```\n"
+    input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```ruby\na = 1\nb = a\n```\n\nconcluding paragraph"
+    expected_output = "--\n\n##Apples\n\n\n* list item 1\n* list item 2\n\n```ruby\na = 1\nb = a\n```\n"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 
   def test_inserts_new_slide_before_each_header
-    input_string = "##Header1\n* list 1\n\n```\ndef calc\n1+1\n# simple calc\nend\n```\n\n###Header2\n"
-    expected_output = "--\n\n##Header1\n* list 1\n\n```\ndef calc\n1+1\n# simple calc\nend\n```\n\n--\n\n###Header2\n"
+    input_string = "##Header1\n* list 1\n\n```ruby\ndef calc\n1+1\n# simple calc\nend\n```\n\n###Header2\n"
+    expected_output = "--\n\n##Header1\n* list 1\n\n```ruby\ndef calc\n1+1\n# simple calc\nend\n```\n\n--\n\n###Header2\n"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 
   def test_inserts_previous_header_after_end_of_code_block
-    input_string = "##Header1\n* list 1\n\n```\ndef calc\n1+1\n# simple calc\nend\n```\n\n```\nmore code\n```\n\n###Header2\n"
-    expected_output = "--\n\n##Header1\n* list 1\n\n```\ndef calc\n1+1\n# simple calc\nend\n```\n\n--\n\n##Header1\n\n```\nmore code\n```\n\n###Header2\n"
-    assert_equal expected_output, @renderer.transpile(input_string)
+    input_string = "##Header1\n* list 1\n\n```ruby\ndef calc\n1+1\n# simple calc\nend\n```\n\n```ruby\nmore code\n```\n\n###Header2\n"
+    expected_output = "--\n\n##Header1\n* list 1\n\n```ruby\ndef calc\n1+1\n# simple calc\nend\n```\n\n--\n\n##Header1\n\n```ruby\nmore code\n```\n\n--\n\n###Header2\n"
+    result = @renderer.transpile(input_string)
+    assert_equal expected_output, result
   end
 
   def test_creates_properly_formatted_file

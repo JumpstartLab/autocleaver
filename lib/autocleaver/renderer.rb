@@ -41,18 +41,19 @@ module Autocleaver
 
     def add_slide_breaks(text)
       inside_code_block = false
-      code_block_count = 0
-      result = text.split("\n").map do |line|
-        if code_block_count == 2
-          inside_code_block = false
-          code_block_count = 0
-        end
-        if code_block_edge?(line)
-          inside_code_block = true
-          code_block_count += 1
-        end
+      current_header = ""
+      missing_header = true
+      text.split("\n").map do |line|
+        inside_code_block = true if opening_code_block?(line)
+        inside_code_block = false if closing_code_block?(line)
+        missing_header = true if closing_code_block?(line)
+
         if header?(line) && !inside_code_block
+          current_header = line
+          missing_header = false
           "--\n\n#{line}"
+        elsif opening_code_block?(line) && missing_header
+          "--\n\n#{current_header}\n\n#{line}"
         else
           line
         end
@@ -92,6 +93,14 @@ module Autocleaver
 
     def code_block_edge?(line)
       line.strip.start_with?("```")
+    end
+
+    def opening_code_block?(line)
+      line.strip.match(/^```.+/)
+    end
+
+    def closing_code_block?(line)
+      line.strip.match(/^```$/)
     end
 
   end
