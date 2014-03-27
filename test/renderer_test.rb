@@ -44,8 +44,8 @@ class RendererTest < Minitest::Test
   end
 
   def test_inserts_new_slide_before_each_header
-    input_string = "##Header1\n* list 1\n\n###Header2\n"
-    expected_output = "--\n\n##Header1\n* list 1\n\n--\n\n###Header2\n"
+    input_string = "##Header1\n* list 1\n\n```\ndef calc\n1+1\n# simple calc\nend\n```\n\n###Header2\n"
+    expected_output = "--\n\n##Header1\n* list 1\n\n```\ndef calc\n1+1\n# simple calc\nend\n```\n\n--\n\n###Header2\n"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 

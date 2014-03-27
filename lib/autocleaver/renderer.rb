@@ -23,13 +23,8 @@ module Autocleaver
 
     def transpile(text)
       text = remove_paragraphs(text)
-      result = text.split("\n").map do |line|
-        if line.strip.start_with?("#")
-          "--\n\n#{line}"
-        else
-          line
-        end
-      end.join("\n")
+      result = add_slide_breaks(text)
+
       result << "\n"
     end
 
@@ -43,6 +38,26 @@ module Autocleaver
     end
 
     private
+
+    def add_slide_breaks(text)
+      inside_code_block = false
+      code_block_count = 0
+      result = text.split("\n").map do |line|
+        if code_block_count == 2
+          inside_code_block = false
+          code_block_count = 0
+        end
+        if code_block_edge?(line)
+          inside_code_block = true
+          code_block_count += 1
+        end
+        if header?(line) && !inside_code_block
+          "--\n\n#{line}"
+        else
+          line
+        end
+      end.join("\n")
+    end
 
     def remove_paragraphs(text)
       code_block = false
@@ -69,6 +84,10 @@ module Autocleaver
 
     def is_paragraph?(line)
       line.match(SENTENCE)
+    end
+
+    def header?(line)
+      line.strip.start_with?("#")
     end
 
     def code_block_edge?(line)
