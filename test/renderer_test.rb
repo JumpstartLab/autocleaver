@@ -27,7 +27,7 @@ class RendererTest < Minitest::Test
 
   def test_outputs_frontmatter
     input_string = "---\nlayout: page\ntitle: Filters\nsection: Controllers\n---\n"
-    expected_output = "title: Filters\noutput: basic.html\ncontrols: true\n\n--\n\n# Filters\n## Controllers\n\n"
+    expected_output = "title: Filters\noutput: filters.html\ncontrols: true\n\n--\n\n# Filters\n## Controllers\n\n"
     assert_equal expected_output, @renderer.generate_headers(input_string)
   end
 

@@ -8,7 +8,7 @@ class CallerTest < Minitest::Test
 
   def setup
     filepath = './test/support/sample_input.markdown'
-    @caller = AutoCleaver::Caller.new(filepath)
+    @caller = Autocleaver::Caller.new(filepath)
   end
 
   def test_it_accepts_a_filepath

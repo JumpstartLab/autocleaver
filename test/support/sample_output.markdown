@@ -1,5 +1,5 @@
 title: Filters
-output: basic.html
+output: filters.html
 controls: true
 
 --
