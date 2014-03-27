@@ -49,6 +49,12 @@ class RendererTest < Minitest::Test
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 
+  def test_inserts_previous_header_after_end_of_code_block
+    input_string = "##Header1\n* list 1\n\n```\ndef calc\n1+1\n# simple calc\nend\n```\n\n```\nmore code\n```\n\n###Header2\n"
+    expected_output = "--\n\n##Header1\n* list 1\n\n```\ndef calc\n1+1\n# simple calc\nend\n```\n\n--\n\n##Header1\n\n```\nmore code\n```\n\n###Header2\n"
+    assert_equal expected_output, @renderer.transpile(input_string)
+  end
+
   def test_creates_properly_formatted_file
     skip
     expected_file = File.read('./test/support/sample_output.markdown')
