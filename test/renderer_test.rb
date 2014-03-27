@@ -28,13 +28,13 @@ class RendererTest < Minitest::Test
 
   def test_outputs_frontmatter
     input_string = "---\nlayout: page\ntitle: Filters\nsection: Controllers\n---\n"
-    expected_output = "title: Filters\noutput: basic.html\ncontrols: true\n\n--\n\n# Filters\n## Controllers\n\n"
+    expected_output = "title: Filters\noutput: basic.html\ncontrols: true\n\n--\n\n# Filters\n## Controllers"
     assert_equal expected_output, @renderer.generate_headers(input_string)
   end
 
   def test_removes_paragraphs_from_simple_text
-    input_string = "##Apples\n\nThey taste like fruits\n\n`code example` for you\n* list item 1\n* list item 2"
-    expected_output = "--\n\n##Apples\n\n\n* list item 1\n* list item 2\n"
+    input_string = "##Apples\n\nThey taste like fruits\n\n`code example` for you\n* `list` item 1\n* list item 2"
+    expected_output = "--\n\n##Apples\n\n\n* `list` item 1\n* list item 2\n"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 
@@ -57,11 +57,25 @@ class RendererTest < Minitest::Test
     assert_equal expected_output, result
   end
 
+  def test_transpiles_ignores_headers
+    input_string = <<-HEADERS
+---
+layout: page
+title: Filters
+section: Controllers
+---
+
+    HEADERS
+    expected_output = "\n"
+    assert_equal expected_output, @renderer.transpile(input_string)
+  end
+
   def test_creates_properly_formatted_file
     skip
     expected_file = File.read('./test/support/sample_output.markdown')
     @renderer.render
     output_file = File.read(@output_filename)
+    binding.pry
     assert_equal expected_file, output_file
   end
 

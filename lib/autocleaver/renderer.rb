@@ -1,6 +1,6 @@
 module Autocleaver
   class Renderer
-    SENTENCE = /^\w|`/
+    SENTENCE = /^(\w|`)/
 
     attr_reader :input_text
 
@@ -17,14 +17,12 @@ module Autocleaver
       output_file.write(generate_headers(input_text))
       output_file.write(transpile(input_text))
       output_file.close
-
       output_file
     end
 
     def transpile(text)
       text = remove_paragraphs(text)
       result = add_slide_breaks(text)
-
       result << "\n"
     end
 
@@ -34,7 +32,7 @@ module Autocleaver
       header << frontmatter.generate
       header << "\n\n--\n\n"
       header << "# #{frontmatter.title}\n"
-      header << "## #{frontmatter.section}\n\n"
+      header << "## #{frontmatter.section}"
     end
 
     private
@@ -61,30 +59,18 @@ module Autocleaver
     end
 
     def remove_paragraphs(text)
-      code_block = false
-      lag_code_block = false
-      code_block_count = 0
-
+      inside_code_block = false
       text.split("\n").map do |line|
-        code_block = false if !lag_code_block && code_block_edge?(line)
-
-        if code_block_edge?(line)
-          code_block = true
-          code_block_count += 1
+        inside_code_block = true if opening_code_block?(line)
+        inside_code_block = false if closing_code_block?(line)
+        if inside_code_block || closing_code_block?(line) || !is_paragraph?(line)
+          line
         end
-
-        lag_code_block = code_block_edge?(line)
-        current_code_block = code_block
-        if code_block_count == 2
-          code_block = false
-          code_block_count = 0
-        end
-        line if current_code_block || !is_paragraph?(line)
       end.compact.join("\n")
     end
 
     def is_paragraph?(line)
-      line.match(SENTENCE)
+      line.match(SENTENCE) || line == "---"
     end
 
     def header?(line)

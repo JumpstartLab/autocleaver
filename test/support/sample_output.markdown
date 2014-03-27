@@ -19,7 +19,6 @@ controls: true
 
 ### Basic Usage
 
-
 ```ruby
 class ArticlesController < ApplicationController
   before_filter do
