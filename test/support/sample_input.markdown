@@ -31,10 +31,10 @@ While the anonymous block style works, it's usually cleaner to implement a named
 ```ruby
 class ArticlesController < ApplicationController
   before_filter :load_article
-  
+
   # Actions...
-  
-private  
+
+private
   def load_article
     @article = Article.find(params[:id]) if params[:id]
   end
@@ -77,10 +77,10 @@ For example, we could remove the condition from the `before_filter` sample above
 ```ruby
 class ArticlesController < ApplicationController
   before_filter :load_article, only: [:show, :edit, :update, :destroy]
-  
+
   # Actions...
-  
-private  
+
+private
   def load_article
     @article = Article.find(params[:id])
   end
@@ -106,7 +106,7 @@ The most common way to reuse filters across controllers is to move them to `Appl
 ```ruby
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  
+
 private
   def load_article
     @article = Article.find(params[:id])
@@ -115,7 +115,7 @@ end
 
 class ArticlesController < ApplicationController
   before_filter :load_article, only: [:show, :edit, :update, :destroy]
-  
+
   # Actions...
 end
 ```
@@ -129,7 +129,7 @@ With a bit of object introspection and mixing in some metaprogramming, we can wr
 ```ruby
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  
+
 private
   def find_resource
     class_name = params[:controller].singularize
@@ -140,7 +140,7 @@ end
 
 class ArticlesController < ApplicationController
   before_filter :find_resource, only: [:show, :edit, :update, :destroy]
-  
+
   # Actions...
 end
 ```

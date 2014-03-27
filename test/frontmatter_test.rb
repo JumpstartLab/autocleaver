@@ -12,17 +12,13 @@ class FrontmatterTest < Minitest::Test
     @frontmatter = Autocleaver::Frontmatter.load(data_file)
   end
 
-  def test_it_exists
-    assert Autocleaver::Frontmatter
-  end
-
   def test_load_pulls_input_data_from_a_file
     assert @frontmatter.input_text
   end
 
   def test_it_extracts_the_raw_frontmatter_from_the_input
     expected = ["layout: page", "title: Filters", "section: Controllers"]
-    assert_equal expected, @frontmatter.extract_frontmatter    
+    assert_equal expected, @frontmatter.extract_frontmatter
   end
 
   def test_it_extracts_the_title
@@ -30,8 +26,13 @@ class FrontmatterTest < Minitest::Test
     assert_equal expected, @frontmatter.title
   end
 
+  def test_it_extracts_the_section
+    expected = "Controllers"
+    assert_equal expected, @frontmatter.section
+  end
+
   def test_it_generates_frontmatter
-    expected = "title: Filters\nstyle: basic-style.css\noutput: basic.html"
+    expected = "title: Filters\noutput: basic.html\ncontrols: true"
     assert_equal expected, @frontmatter.generate
   end
   # def test_it_generates_the_needed_fields

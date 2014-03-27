@@ -9,7 +9,7 @@ controls: true
 
 --
 
-### Before, After, and Around
+## Before, After, and Around
 
 * `before_filter` runs before the controller action
 * `after_filter` runs after the controller action
@@ -17,9 +17,7 @@ controls: true
 
 --
 
-### Before, After, and Around
-#### Basic Usage
-
+### Basic Usage
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -31,16 +29,15 @@ class ArticlesController < ApplicationController
 
 --
 
-### Before, After, and Around
-#### Basic Usage
+### Basic Usage
 
 ```ruby
 class ArticlesController < ApplicationController
   before_filter :load_article
-  
+
   # Actions...
-  
-private  
+
+private
   def load_article
     @article = Article.find(params[:id]) if params[:id]
   end
@@ -49,14 +46,10 @@ end
 
 --
 
-### Before, After, and Around
 #### `after_filter`
-
-An `after_filter` works exactly the same, just executing _after_ the controller action.
 
 --
 
-### Before, After, and Around
 #### `around_filter`
 
 ```ruby
@@ -73,24 +66,18 @@ end
 
 --
 
-### Before, After, and Around
-#### `only` and `except`
+### `only` and `except`
 
 * `:only`: a whitelist of actions for which the filter should run
 * `:except`: a blacklist of actions for which the filter should *not* run.
 
---
-
-### Before, After, and Around
-#### `only` and `except`
-
 ```ruby
 class ArticlesController < ApplicationController
   before_filter :load_article, only: [:show, :edit, :update, :destroy]
-  
+
   # Actions...
-  
-private  
+
+private
   def load_article
     @article = Article.find(params[:id])
   end
@@ -99,8 +86,7 @@ end
 
 --
 
-### Before, After, and Around
-#### `only` and `except`
+### `only` and `except`
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -110,18 +96,16 @@ class ArticlesController < ApplicationController
 
 --
 
-### Sharing Filters
-
+## Sharing Filters
 
 --
 
-### Sharing Filters
-#### Sharing through `ApplicationController`
+### Sharing through `ApplicationController`
 
 ```ruby
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  
+
 private
   def load_article
     @article = Article.find(params[:id])
@@ -130,22 +114,19 @@ end
 
 class ArticlesController < ApplicationController
   before_filter :load_article, only: [:show, :edit, :update, :destroy]
-  
+
   # Actions...
 end
 ```
 
 --
 
-### Sharing Filters
-#### Sharing through `ApplicationController`
-##### Generalizing to `find_resource`
-
+#### Generalizing to `find_resource`
 
 ```ruby
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  
+
 private
   def find_resource
     class_name = params[:controller].singularize
@@ -156,14 +137,16 @@ end
 
 class ArticlesController < ApplicationController
   before_filter :find_resource, only: [:show, :edit, :update, :destroy]
-  
+
   # Actions...
 end
 ```
 
 --
 
-### Exercises
+## Exercises
+
+{% include custom/sample_project_advanced.html %}
 
 1. Implement a `before_filter` in `ArticlesController` to remove all calls to `find` in the actions.
 2. Implement an `after_filter` that turns the article titles to all uppercase, but does not change the data in the database.
@@ -172,6 +155,6 @@ end
 
 --
 
-### References
+## References
 
 * Rails Guide on Controller Filters: http://guides.rubyonrails.org/action_controller_overview.html#filters
