@@ -48,7 +48,6 @@ end
 
 #### `after_filter`
 
-
 --
 
 #### `around_filter`
@@ -103,7 +102,6 @@ class ArticlesController < ApplicationController
 
 ## Sharing Filters
 
-
 --
 
 ### Sharing through `ApplicationController`
@@ -128,7 +126,6 @@ end
 --
 
 #### Generalizing to `find_resource`
-
 
 ```ruby
 class ApplicationController < ActionController::Base

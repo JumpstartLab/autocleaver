@@ -33,6 +33,7 @@ module Autocleaver
       header << "\n\n--\n\n"
       header << "# #{frontmatter.title}\n"
       header << "## #{frontmatter.section}"
+      header << "\n\n"
     end
 
     private
@@ -60,11 +61,18 @@ module Autocleaver
 
     def remove_paragraphs(text)
       inside_code_block = false
+      remove_linebreak = false
       text.split("\n").map do |line|
         inside_code_block = true if opening_code_block?(line)
         inside_code_block = false if closing_code_block?(line)
-        if inside_code_block || closing_code_block?(line) || !is_paragraph?(line)
+        if remove_linebreak == true
+          remove_linebreak = false
+          nil
+        elsif inside_code_block || closing_code_block?(line) || !is_paragraph?(line)
           line
+        else
+          remove_linebreak = true
+          nil
         end
       end.compact.join("\n")
     end
