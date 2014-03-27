@@ -63,7 +63,7 @@ module Autocleaver
     end
 
     def default_output
-      "basic.html"
+      "#{title.downcase.join('_').strip}.html"
     end
 
     def default_controls
