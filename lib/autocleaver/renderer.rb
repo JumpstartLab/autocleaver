@@ -1,3 +1,5 @@
+require_relative './frontmatter'
+
 module Autocleaver
   class Renderer
     SENTENCE = /^(\w|`)/

@@ -1,4 +1,6 @@
-module AutoCleaver
+require_relative './renderer'
+
+module Autocleaver
   class Caller
     attr_reader :filepath
 

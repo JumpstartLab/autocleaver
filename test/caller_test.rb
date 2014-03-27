@@ -15,7 +15,6 @@ class CallerTest < Minitest::Test
     output = @caller.create_presentation
     expected_file = File.read('./test/support/sample_output.markdown')
     assert_equal expected_file, File.read(output)
-
   end
 
 
