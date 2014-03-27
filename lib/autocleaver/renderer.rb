@@ -1,6 +1,7 @@
 module Autocleaver
   class Renderer
     SENTENCE = /^(\w|`)/
+    NUMBERS = /[0-9]/
 
     attr_reader :input_text
 
@@ -78,7 +79,7 @@ module Autocleaver
     end
 
     def is_paragraph?(line)
-      line.match(SENTENCE) || line == "---"
+      line.strip.match(SENTENCE) && !line.strip.match(NUMBERS) || line == "---"
     end
 
     def header?(line)

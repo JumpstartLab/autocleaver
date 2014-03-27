@@ -66,14 +66,10 @@ end
 
 --
 
-#### `only` and `except`
+### `only` and `except`
 
 * `:only`: a whitelist of actions for which the filter should run
 * `:except`: a blacklist of actions for which the filter should *not* run.
-
---
-
-### `only` and `except`
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -149,6 +145,8 @@ end
 --
 
 ## Exercises
+
+{% include custom/sample_project_advanced.html %}
 
 1. Implement a `before_filter` in `ArticlesController` to remove all calls to `find` in the actions.
 2. Implement an `after_filter` that turns the article titles to all uppercase, but does not change the data in the database.

@@ -1,4 +1,3 @@
-require 'pry'
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -41,6 +40,12 @@ class RendererTest < Minitest::Test
   def test_keeps_code_blocks
     input_string = "##Apples\n\nThey taste like fruits\n\n* list item 1\n* list item 2\n\n```ruby\na = 1\nb = a\n```\n\nconcluding paragraph"
     expected_output = "--\n\n##Apples\n\n* list item 1\n* list item 2\n\n```ruby\na = 1\nb = a\n```\n"
+    assert_equal expected_output, @renderer.transpile(input_string)
+  end
+
+  def test_keeps_ordered_lists
+    input_string = "##Apples\n\nThey taste like fruits\n\n1. list item 1\n2. list item 2\n\n```ruby\na = 1\nb = a\n```\n\nconcluding paragraph"
+    expected_output = "--\n\n##Apples\n\n1. list item 1\n2. list item 2\n\n```ruby\na = 1\nb = a\n```\n"
     assert_equal expected_output, @renderer.transpile(input_string)
   end
 
@@ -89,11 +94,9 @@ There are three types of filters implemented in Rails:
   end
 
   def test_creates_properly_formatted_file
-    skip
     expected_file = File.read('./test/support/sample_output.markdown')
     @renderer.render
     output_file = File.read(@output_filename)
-    binding.pry
     assert_equal expected_file, output_file
   end
 

@@ -12,10 +12,6 @@ class FrontmatterTest < Minitest::Test
     @frontmatter = Autocleaver::Frontmatter.load(data_file)
   end
 
-  def test_it_exists
-    assert Autocleaver::Frontmatter
-  end
-
   def test_load_pulls_input_data_from_a_file
     assert @frontmatter.input_text
   end
