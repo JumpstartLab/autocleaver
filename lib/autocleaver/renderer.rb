@@ -30,7 +30,7 @@ module Autocleaver
     end
 
     def generate_headers(text)
-      Autocleaver::Frontmatter.new(text).header
+      Autocleaver::Frontmatter.new(text).to_s
     end
 
     private

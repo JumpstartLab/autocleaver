@@ -48,6 +48,6 @@ controls: true
 ## Controllers
 
 EOS
-     assert_equal expected, @frontmatter.header
+     assert_equal expected, @frontmatter.to_s
    end
 end

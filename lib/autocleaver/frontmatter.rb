@@ -76,7 +76,7 @@ module Autocleaver
       end.join("\n")
     end
 
-    def header
+    def to_s
       h = generate
       h << "\n\n--\n\n"
       h << "# #{title}\n"
