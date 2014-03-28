@@ -35,14 +35,19 @@ class FrontmatterTest < Minitest::Test
     expected = "title: Filters\noutput: filters.html\ncontrols: true"
     assert_equal expected, @frontmatter.generate
   end
-  # def test_it_generates_the_needed_fields
-  #   # title: Basic Example
-  #   # author:
-  #   #   name: Jordan Scales
-  #   #   twitter: jdan
-  #   #   url: http://jordanscales.com
-  #   # style: basic-style.css
-  #   # output: basic.html
 
-  # end
+  def test_it_generates_the_needed_header
+     expected=<<EOS
+title: Filters
+output: filters.html
+controls: true
+
+--
+
+# Filters
+## Controllers
+
+EOS
+     assert_equal expected, @frontmatter.header
+   end
 end

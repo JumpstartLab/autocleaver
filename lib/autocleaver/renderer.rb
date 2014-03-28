@@ -30,13 +30,7 @@ module Autocleaver
     end
 
     def generate_headers(text)
-      frontmatter = Autocleaver::Frontmatter.new(text)
-      header = ""
-      header << frontmatter.generate
-      header << "\n\n--\n\n"
-      header << "# #{frontmatter.title}\n"
-      header << "## #{frontmatter.section}"
-      header << "\n\n"
+      Autocleaver::Frontmatter.new(text).header
     end
 
     private
