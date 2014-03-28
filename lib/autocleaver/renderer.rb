@@ -40,7 +40,7 @@ module Autocleaver
       current_header = ""
       missing_header = true
       text.split("\n").map do |line|
-        code_block_status(line)
+        update_code_block_status(line)
         missing_header = true if closing_code_block?(line)
 
         if header?(line) && !inside_code_block
@@ -58,7 +58,7 @@ module Autocleaver
     def remove_paragraphs(text)
       remove_linebreak = false
       text.split("\n").map do |line|
-        code_block_status(line)
+        update_code_block_status(line)
         if remove_linebreak == true
           remove_linebreak = false
           nil
@@ -91,7 +91,7 @@ module Autocleaver
       line.strip.match(/^```$/)
     end
 
-    def code_block_status(line)
+    def update_code_block_status(line)
       @inside_code_block = true if opening_code_block?(line)
       @inside_code_block = false if closing_code_block?(line)
     end
