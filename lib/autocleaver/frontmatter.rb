@@ -76,5 +76,12 @@ module Autocleaver
       end.join("\n")
     end
 
+    def to_s
+      h = generate
+      h << "\n\n--\n\n"
+      h << "# #{title}\n"
+      h << "## #{section}\n\n"
+    end
+
   end
 end

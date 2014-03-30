@@ -5,10 +5,11 @@ module Autocleaver
     SENTENCE = /^(\w|`)/
     NUMBERS = /[0-9]/
 
-    attr_reader :input_text
+    attr_reader :input_text, :inside_code_block
 
     def initialize(text)
       @input_text = text
+      @inside_code_block = false
     end
 
     def self.load(filename)
@@ -30,24 +31,16 @@ module Autocleaver
     end
 
     def generate_headers(text)
-      frontmatter = Autocleaver::Frontmatter.new(text)
-      header = ""
-      header << frontmatter.generate
-      header << "\n\n--\n\n"
-      header << "# #{frontmatter.title}\n"
-      header << "## #{frontmatter.section}"
-      header << "\n\n"
+      Autocleaver::Frontmatter.new(text).to_s
     end
 
     private
 
     def add_slide_breaks(text)
-      inside_code_block = false
       current_header = ""
       missing_header = true
       text.split("\n").map do |line|
-        inside_code_block = true if opening_code_block?(line)
-        inside_code_block = false if closing_code_block?(line)
+        update_code_block_status(line)
         missing_header = true if closing_code_block?(line)
 
         if header?(line) && !inside_code_block
@@ -63,11 +56,9 @@ module Autocleaver
     end
 
     def remove_paragraphs(text)
-      inside_code_block = false
       remove_linebreak = false
       text.split("\n").map do |line|
-        inside_code_block = true if opening_code_block?(line)
-        inside_code_block = false if closing_code_block?(line)
+        update_code_block_status(line)
         if remove_linebreak == true
           remove_linebreak = false
           nil
@@ -98,6 +89,11 @@ module Autocleaver
 
     def closing_code_block?(line)
       line.strip.match(/^```$/)
+    end
+
+    def update_code_block_status(line)
+      @inside_code_block = true if opening_code_block?(line)
+      @inside_code_block = false if closing_code_block?(line)
     end
 
   end
