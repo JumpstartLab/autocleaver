@@ -22,24 +22,12 @@ module Autocleaver
     end
 
     def extract_frontmatter
-      started = false
-      finished = false
-      result = []
-      input_text.each_line do |line|
-        line = line.strip
-        unless finished
-          if !started
-            if line == '---'
-              started = true
-            end
-          elsif line == '---'
-            finished = true
-          else
-            result << line
-          end
-        end
-      end
-      return result
+      # input_text[/(?<=^---$)\n(.*?)\n(?=^---$)/m, 1].lines.map(&:strip) # this works, too, :P
+      input_text.each_line
+                .map(&:strip)
+                .drop_while { |line| line != '---' }
+                .drop(1)
+                .take_while { |line| line != '---' }
     end
 
     def style
