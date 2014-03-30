@@ -1,10 +1,26 @@
+PATH
+  remote: .
+  specs:
+    autocleaver (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    minitest (5.2.1)
+    coderay (1.1.0)
+    method_source (0.8.2)
+    minitest (5.3.1)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    rake (10.2.1)
+    slop (3.5.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  minitest
+  autocleaver!
+  minitest (~> 5.3.1)
+  pry (~> 0.9.12.6)
+  rake
