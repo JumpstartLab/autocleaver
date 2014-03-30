@@ -1,4 +1,4 @@
-require_relative './frontmatter'
+require 'autocleaver/frontmatter'
 
 module Autocleaver
   class Renderer

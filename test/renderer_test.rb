@@ -1,14 +1,10 @@
-gem 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
-
-require './lib/autocleaver/renderer'
+require 'autocleaver/renderer'
 
 class RendererTest < Minitest::Test
   attr_reader :renderer
 
   def setup
-    data_file = './test/support/sample_input.markdown'
+    data_file = File.expand_path '../support/sample_input.markdown', __FILE__
     @output_filename = 'output_file.html'
     @renderer = Autocleaver::Renderer.load(data_file)
   end

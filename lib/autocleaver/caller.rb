@@ -1,4 +1,4 @@
-require_relative './renderer'
+require 'autocleaver/renderer'
 
 module Autocleaver
   class Caller

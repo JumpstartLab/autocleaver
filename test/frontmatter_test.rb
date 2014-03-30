@@ -1,14 +1,10 @@
-gem 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
-
-require './lib/autocleaver/frontmatter'
+require 'autocleaver/frontmatter'
 
 class FrontmatterTest < Minitest::Test
   attr_reader :frontmatter
 
   def setup
-    data_file = './test/support/sample_input.markdown'
+    data_file = File.expand_path '../support/sample_input.markdown', __FILE__
     @frontmatter = Autocleaver::Frontmatter.load(data_file)
   end
 

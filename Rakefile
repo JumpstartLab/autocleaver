@@ -1,8 +1,10 @@
+$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 require 'rake/testtask'
-require './lib/autocleaver/caller'
+require 'autocleaver/caller'
 
 Rake::TestTask.new do |t|
-    t.pattern = "test/*_test.rb"
+  t.libs << File.expand_path('../test', __FILE__)
+  t.pattern = "test/*_test.rb"
 end
 
 # make a cleaver presentation from a markdown file
